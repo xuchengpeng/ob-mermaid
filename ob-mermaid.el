@@ -72,16 +72,16 @@ For htmlLabels specifically, see URL
 (defun org-babel-execute:mermaid (body params)
   (let* ((out-file (or (cdr (assoc :file params))
                        (error "mermaid requires a \":file\" header argument")))
-	     (theme (cdr (assoc :theme params)))
+         (theme (cdr (assoc :theme params)))
          (size (cdr (assoc :size params)))
-	     (scale (cdr (assoc :scale params)))
-	     (background-color (cdr (assoc :background-color params)))
-	     (mermaid-config-file (or (cdr (assoc :mermaid-config-file params))
+         (scale (cdr (assoc :scale params)))
+         (background-color (cdr (assoc :background-color params)))
+         (mermaid-config-file (or (cdr (assoc :mermaid-config-file params))
                                   ob-mermaid-default-config-file))
-	     (css-file (cdr (assoc :css-file params)))
-	     (puppeteer-config-file (cdr (assoc :puppeteer-config-file params)))
-	     (pdf-paper-format (cdr (assoc :pdf-paper-format params)))
-	     (cmdline (cdr (assoc :cmdline params)))
+         (css-file (cdr (assoc :css-file params)))
+         (puppeteer-config-file (cdr (assoc :puppeteer-config-file params)))
+         (pdf-paper-format (cdr (assoc :pdf-paper-format params)))
+         (cmdline (cdr (assoc :cmdline params)))
          (mmdc-path (executable-find "mmdc"))
          (mmdc (or ob-mermaid-cli-path
                    (if mmdc-path
@@ -92,24 +92,24 @@ For htmlLabels specifically, see URL
          (cmd (concat (shell-quote-argument mmdc)
                       " -o " (org-babel-process-file-name out-file)
                       " -i -"
-		              (when theme
-			            (concat " -t " theme))
-		              (when background-color
-			            (concat " -b " background-color))
+                      (when theme
+                        (concat " -t " theme))
+                      (when background-color
+                        (concat " -b " background-color))
                       (when size
                         (concat " --size " (number-to-string size)))
-		              (when scale
-			            (concat " -s " (number-to-string scale)))
-		              (when pdf-paper-format
-			            (concat " --pdf-paper-format " pdf-paper-format))
-		              (when mermaid-config-file
-			            (concat " -c " (org-babel-process-file-name mermaid-config-file)))
-		              (when css-file
-			            (concat " -C " (org-babel-process-file-name css-file)))
+                      (when scale
+                        (concat " -s " (number-to-string scale)))
+                      (when pdf-paper-format
+                        (concat " --pdf-paper-format " pdf-paper-format))
+                      (when mermaid-config-file
+                        (concat " -c " (org-babel-process-file-name mermaid-config-file)))
+                      (when css-file
+                        (concat " -C " (org-babel-process-file-name css-file)))
                       (when puppeteer-config-file
                         (concat " -p " (org-babel-process-file-name puppeteer-config-file)))
-		              (when cmdline
-			            (concat " " cmdline)))))
+                      (when cmdline
+                        (concat " " cmdline)))))
     (message "%s" cmd)
     (org-babel-eval cmd body)
     nil))
